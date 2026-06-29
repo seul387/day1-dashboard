@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026 해외법인 분기실적 · Global Subsidiaries</title>
+<style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;src:local('Inter Regular'),local('Inter-Regular'),local('system-ui');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:500;src:local('Inter Medium'),local('Inter-Medium');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;src:local('Inter SemiBold'),local('Inter-SemiBold');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;src:local('Inter Bold'),local('Inter-Bold');}
+</style>
+<style>
+:root{
+  --canvas:#ffffff; --ink:#222222; --body:#3f3f3f; --muted:#6a6a6a; --muted-soft:#929292;
+  --primary:#ff385c; --primary-active:#e00b41; --primary-disabled:#ffd1da;
+  --surface-soft:#f7f7f7; --surface-strong:#f2f2f2;
+  --hairline:#dddddd; --hairline-soft:#ebebeb; --border-strong:#c1c1c1;
+  --error:#c13515; --luxe:#460479;
+  --r-sm:8px; --r-md:14px; --r-xl:32px; --r-full:9999px;
+  --shadow:rgba(0,0,0,.02) 0 0 0 1px, rgba(0,0,0,.04) 0 2px 6px 0, rgba(0,0,0,.1) 0 4px 8px 0;
+  --shadow-soft:rgba(0,0,0,.05) 0 1px 2px 0, rgba(0,0,0,.06) 0 6px 16px 0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter','Airbnb Cereal VF',Circular,-apple-system,system-ui,'Helvetica Neue',sans-serif;
+  background:var(--canvas); color:var(--ink); line-height:1.5;
+  -webkit-font-smoothing:antialiased; font-feature-settings:'tnum' 1;
+}
+a{color:inherit;text-decoration:none}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* ---------- TOP NAV ---------- */
+.nav{position:sticky;top:0;z-index:50;background:var(--canvas);border-bottom:1px solid var(--hairline)}
+.nav-inner{max-width:1280px;margin:0 auto;height:80px;display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.wordmark{display:flex;align-items:center;gap:9px;font-weight:700;font-size:20px;letter-spacing:-.3px;color:var(--primary)}
+.wordmark svg{width:30px;height:30px}
+.wordmark .sub{color:var(--ink);font-weight:600;font-size:15px;letter-spacing:0}
+.tabs{display:flex;gap:6px}
+.tab{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:var(--r-full);font-size:16px;font-weight:600;color:var(--muted);cursor:pointer;position:relative;white-space:nowrap}
+.tab:hover{background:var(--surface-soft);color:var(--ink)}
+.tab.active{color:var(--ink)}
+.tab.active::after{content:"";position:absolute;left:14px;right:14px;bottom:2px;height:2px;background:var(--ink);border-radius:2px}
+.tab .ic{font-size:18px}
+.tab .newtag{font-size:8px;font-weight:700;letter-spacing:.32px;text-transform:uppercase;color:#fff;background:var(--ink);padding:2px 5px;border-radius:var(--r-full);transform:translateY(-7px)}
+.nav-right{display:flex;align-items:center;gap:6px}
+.nav-pill{font-size:14px;font-weight:600;padding:10px 14px;border-radius:var(--r-full);color:var(--ink);cursor:pointer}
+.nav-pill:hover{background:var(--surface-soft)}
+.acct{display:flex;align-items:center;gap:10px;border:1px solid var(--hairline);border-radius:var(--r-full);padding:6px 8px 6px 14px;cursor:pointer}
+.acct:hover{box-shadow:var(--shadow)}
+.acct .burger{width:16px;height:16px}
+.acct .av{width:30px;height:30px;border-radius:var(--r-full);background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
+
+/* ---------- LAYOUT ---------- */
+.wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+.hero{padding:48px 0 8px}
+.hero h1{font-size:28px;font-weight:700;line-height:1.25;letter-spacing:-.4px}
+.hero p{margin-top:8px;color:var(--muted);font-size:16px}
+.crumb{font-size:13px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+
+/* search pill */
+.searchbar{display:flex;align-items:center;background:var(--canvas);border:1px solid var(--hairline);border-radius:var(--r-full);box-shadow:var(--shadow);max-width:780px;margin:28px 0 8px;height:64px;overflow:hidden}
+.seg{flex:1;display:flex;flex-direction:column;justify-content:center;padding:10px 24px;cursor:text;border-radius:var(--r-full)}
+.seg+.seg{border-left:1px solid var(--hairline)}
+.seg .lab{font-size:12px;font-weight:600;letter-spacing:.2px}
+.seg input{border:none;outline:none;font-family:inherit;font-size:14px;color:var(--ink);background:transparent;width:100%;margin-top:2px}
+.seg input::placeholder{color:var(--muted)}
+.seg select{border:none;outline:none;font-family:inherit;font-size:14px;color:var(--ink);background:transparent;margin-top:2px;cursor:pointer}
+.orb{width:48px;height:48px;min-width:48px;border-radius:var(--r-full);background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 8px}
+.orb svg{width:18px;height:18px}
+
+/* category strip */
+.strip{display:flex;gap:8px;overflow-x:auto;padding:18px 0 22px;scrollbar-width:none;border-bottom:1px solid var(--hairline-soft)}
+.strip::-webkit-scrollbar{display:none}
+.chip{display:flex;align-items:center;gap:7px;white-space:nowrap;padding:9px 16px;border:1px solid var(--hairline);border-radius:var(--r-full);font-size:14px;font-weight:500;color:var(--body);cursor:pointer;background:#fff}
+.chip:hover{border-color:var(--ink);background:var(--surface-soft)}
+.chip.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chip .dot{font-size:15px}
+.chip .ct{font-size:12px;color:var(--muted-soft);font-weight:600}
+.chip.active .ct{color:rgba(255,255,255,.7)}
+
+/* section heads */
+.sec{padding:44px 0}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px;gap:16px;flex-wrap:wrap}
+.sec-head h2{font-size:22px;font-weight:700;letter-spacing:-.3px}
+.sec-head .meta{font-size:14px;color:var(--muted)}
+
+/* KPI cards */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.kpi{border:1px solid var(--hairline);border-radius:var(--r-md);padding:22px 22px 20px;background:#fff;transition:box-shadow .15s}
+.kpi:hover{box-shadow:var(--shadow)}
+.kpi .k{font-size:13px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:7px}
+.kpi .v{font-size:34px;font-weight:700;letter-spacing:-1px;margin-top:12px;line-height:1.05}
+.kpi .v .u{font-size:16px;font-weight:600;color:var(--muted);letter-spacing:0;margin-left:3px}
+.kpi .d{font-size:13px;color:var(--body);margin-top:8px}
+.kpi .d b{color:var(--ink)}
+.pos{color:var(--ink)} .neg{color:var(--error)}
+
+/* charts grid */
+.cards2{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}
+.cards3{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.panel{border:1px solid var(--hairline);border-radius:var(--r-md);padding:24px;background:#fff}
+.panel h3{font-size:16px;font-weight:600;margin-bottom:2px}
+.panel .ph-sub{font-size:13px;color:var(--muted);margin-bottom:18px}
+.chart{width:100%}
+.lg-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px}
+.lg{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)}
+.lg .sw{width:11px;height:11px;border-radius:3px}
+
+/* region cards */
+.grid-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 16px}
+.pcard{cursor:pointer;border-radius:var(--r-md);background:#fff;transition:transform .12s}
+.pcard:hover{transform:translateY(-2px)}
+.pcard .photo{position:relative;border-radius:var(--r-md);overflow:hidden;aspect-ratio:20/13;display:flex;align-items:flex-end;padding:14px;color:#fff}
+.pcard .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(0,0,0,.45) 100%)}
+.pcard .photo .pc-name{position:relative;z-index:1;font-size:18px;font-weight:600;letter-spacing:-.2px;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.badge{position:absolute;top:12px;left:12px;z-index:2;background:#fff;color:var(--ink);font-size:11px;font-weight:700;padding:6px 10px;border-radius:var(--r-full);box-shadow:var(--shadow)}
+.heart{position:absolute;top:10px;right:10px;z-index:2;width:30px;height:30px}
+.pcard .meta{padding:12px 2px 4px}
+.pcard .mrow{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.pcard .t{font-size:15px;font-weight:600;color:var(--ink)}
+.pcard .rating{font-size:14px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:3px}
+.pcard .sub{font-size:14px;color:var(--muted);margin-top:3px}
+.pcard .price{font-size:15px;margin-top:6px;color:var(--ink)}
+.pcard .price b{font-weight:700}
+
+/* top performer card */
+.tp .photo{aspect-ratio:1/1;flex-direction:column;align-items:flex-start;justify-content:space-between}
+.tp .corner{position:relative;z-index:1;font-size:13px;font-weight:600;opacity:.95}
+.tp .big{position:relative;z-index:1}
+.tp .big .num{font-size:40px;font-weight:700;letter-spacing:-1.5px;line-height:1}
+.tp .big .lab{font-size:12px;font-weight:600;opacity:.9;margin-top:2px}
+
+/* table */
+.tablecard{border:1px solid var(--hairline);border-radius:var(--r-md);overflow:hidden}
+.tbl-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:920px}
+thead th{text-align:right;font-weight:600;color:var(--muted);font-size:12.5px;padding:14px 14px;border-bottom:1px solid var(--hairline);background:var(--surface-soft);white-space:nowrap;cursor:pointer;user-select:none;position:sticky;top:0}
+thead th.l{text-align:left}
+thead th:hover{color:var(--ink)}
+thead th .ar{opacity:.4;font-size:10px}
+thead th.sorted .ar{opacity:1;color:var(--primary)}
+tbody td{padding:13px 14px;border-bottom:1px solid var(--hairline-soft);text-align:right;white-space:nowrap;color:var(--body)}
+tbody td.l{text-align:left}
+tbody tr:hover{background:var(--surface-soft)}
+tbody tr:last-child td{border-bottom:none}
+.corp{font-weight:600;color:var(--ink)}
+.code{font-size:12px;color:var(--muted-soft)}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:var(--r-full);background:var(--surface-strong);color:var(--body)}
+.gr{display:inline-block;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;border:1px solid var(--hairline)}
+.gr.a{color:#0a7d28;border-color:#bfe6c8;background:#f1faf3}
+.gr.b{color:#9a6700;border-color:#f0e3b8;background:#fdf9ec}
+.gr.c{color:var(--error);border-color:#f3cfc3;background:#fdf1ee}
+.tbl-foot{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;font-size:13px;color:var(--muted);background:#fff;border-top:1px solid var(--hairline-soft)}
+.linkbtn{color:var(--ink);font-weight:600;font-size:14px;text-decoration:underline;cursor:pointer;background:none;border:none;font-family:inherit}
+
+/* footer */
+.footer{border-top:1px solid var(--hairline);margin-top:40px;background:var(--canvas)}
+.footer .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:48px 0 32px}
+.footer h4{font-size:15px;font-weight:600;margin-bottom:14px}
+.footer ul{list-style:none}
+.footer li{font-size:14px;color:var(--body);padding:6px 0;cursor:pointer}
+.footer li:hover{text-decoration:underline}
+.legal{border-top:1px solid var(--hairline);padding:22px 0 40px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--muted)}
+.legal .right{display:flex;gap:18px}
+
+/* tooltip */
+.tip{position:fixed;z-index:99;background:var(--ink);color:#fff;font-size:12px;padding:8px 11px;border-radius:8px;pointer-events:none;opacity:0;transition:opacity .1s;white-space:nowrap;box-shadow:var(--shadow);font-weight:500}
+.tip b{font-weight:700}
+.bar-seg,.dn-seg,.dot-pt{cursor:pointer;transition:opacity .12s}
+.fade{opacity:.28}
+
+@media(max-width:1040px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .cards2{grid-template-columns:1fr}
+  .grid-cards{grid-template-columns:repeat(2,1fr)}
+  .tabs{display:none}
+}
+@media(max-width:620px){
+  .kpis{grid-template-columns:1fr}
+  .cards3{grid-template-columns:1fr}
+  .grid-cards{grid-template-columns:1fr}
+  .seg .lab{font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="wordmark" href="#top">
+      GLOBAL<span class="sub">분기실적</span>
+    </a>
+    <div class="tabs">
+      <div class="tab active" data-tab="#top"><span class="ic">🏠</span>개요</div>
+      <div class="tab" data-tab="#regions"><span class="ic">🌍</span>지역별</div>
+      <div class="tab" data-tab="#sectors"><span class="ic">🏭</span>사업부문<span class="newtag">New</span></div>
+      <div class="tab" data-tab="#table"><span class="ic">📋</span>법인 전체<span class="newtag">New</span></div>
+    </div>
+    <div class="nav-right">
+      <div class="nav-pill">실적 보고서 등록</div>
+      <div class="nav-pill">🌐</div>
+      <div class="acct">
+        <svg class="burger" viewBox="0 0 16 16" fill="none" stroke="var(--ink)" stroke-width="1.5"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+        <div class="av">PI</div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div id="top"></div>
+
+<!-- HERO -->
+<div class="wrap">
+  <div class="hero">
+    <div class="crumb">★ Worldwide Operations · Steel · Mobility · Energy · Resources · Food · Bio</div>
+    <h1>전 세계 법인의 2026년 분기 실적을 한눈에</h1>
+    <p>120개 해외법인 · 7개 지역 · 8개 사업부문의 연간 매출과 영업이익 (단위: 백만원 / 억원)</p>
+
+    <div class="searchbar">
+      <label class="seg" for="q"><span class="lab">법인 검색</span><input id="q" placeholder="법인명 · 국가 · 제품 검색"></label>
+      <label class="seg" for="fRegion"><span class="lab">지역</span><select id="fRegion"></select></label>
+      <label class="seg" for="fGrade"><span class="lab">투자등급</span><select id="fGrade"></select></label>
+      <div class="orb"><svg viewBox="0 0 18 18" fill="none" stroke="#fff" stroke-width="2.2"><circle cx="7.5" cy="7.5" r="5.5"/><path d="M12 12l4 4"/></svg></div>
+    </div>
+
+    <div class="strip" id="strip"></div>
+  </div>
+</div>
+
+<!-- KPI -->
+<div class="wrap"><section class="sec" style="padding-top:30px">
+  <div class="sec-head"><h2 id="kpiTitle">전사 통합 실적</h2><span class="meta" id="kpiMeta"></span></div>
+  <div class="kpis" id="kpis"></div>
+</section></div>
+
+<!-- CHARTS -->
+<div class="wrap"><section class="sec" style="padding-top:6px">
+  <div class="cards2">
+    <div class="panel">
+      <h3>분기별 매출 · 영업이익 추이</h3>
+      <div class="ph-sub" id="qSub">선택된 범위의 Q1–Q4 합산 (억원)</div>
+      <div id="qChart" class="chart"></div>
+      <div class="lg-row">
+        <span class="lg"><span class="sw" style="background:var(--ink)"></span>매출</span>
+        <span class="lg"><span class="sw" style="background:var(--primary)"></span>영업이익</span>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>사업부문별 매출 비중</h3>
+      <div class="ph-sub">전사 연매출 기준</div>
+      <div id="donut" class="chart"></div>
+    </div>
+  </div>
+</section></div>
+
+<!-- REGIONS -->
+<div class="wrap"><section class="sec" id="regions" style="padding-top:6px">
+  <div class="cards2">
+    <div class="panel">
+      <h3>지역별 연매출</h3>
+      <div class="ph-sub">선택된 범위 · 막대를 클릭하면 해당 지역으로 필터링됩니다 (억원)</div>
+      <div id="regionBar" class="chart"></div>
+    </div>
+    <div class="panel">
+      <h3>사업부문별 영업이익</h3>
+      <div class="ph-sub">흑자/적자 부문 (억원)</div>
+      <div id="sectorBar" class="chart"></div>
+    </div>
+  </div>
+</section></div>
+
+<!-- TOP PERFORMERS -->
+<div class="wrap"><section class="sec" id="sectors" style="padding-top:8px">
+  <div class="sec-head"><h2 id="tpTitle">매출 상위 법인</h2><span class="meta">큰 숫자는 영업이익률</span></div>
+  <div class="grid-cards" id="topCards"></div>
+</section></div>
+
+<!-- TABLE -->
+<div class="wrap"><section class="sec" id="table" style="padding-top:8px">
+  <div class="sec-head"><h2>전체 법인 실적</h2><span class="meta" id="tblMeta"></span></div>
+  <div class="tablecard">
+    <div class="tbl-scroll"><table id="tbl">
+      <thead><tr id="thead"></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table></div>
+    <div class="tbl-foot"><span id="tblFoot"></span><button class="linkbtn" id="moreBtn">전체 보기</button></div>
+  </div>
+</section></div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div><h4>실적 개요</h4><ul>
+        <li>전사 통합 실적</li><li>지역별 분석</li><li>사업부문별 분석</li><li>투자등급 현황</li>
+      </ul></div>
+      <div><h4>사업부문</h4><ul>
+        <li>철강트레이딩 · 모빌리티</li><li>에너지 · 자원개발</li><li>식량 · 바이오소재</li><li>그린수소 · CCS사업</li>
+      </ul></div>
+      <div><h4>데이터</h4><ul>
+        <li>해외법인_분기실적_2026.xlsx</li><li>단위: 백만원 (카드·차트는 억원 환산)</li><li>기준 분기: 2026 Q1–Q4</li><li>총 120개 법인</li>
+      </ul></div>
+    </div>
+    <div class="legal">
+      <span>© 2026 GLOBAL SUBSIDIARIES — Worldwide Operations Quarterly Performance</span>
+      <span class="right"><span>🌐 한국어 (KR)</span><span>₩ KRW</span><span>대시보드 v1.0</span></span>
+    </div>
+  </div>
+</footer>
+
+<div class="tip" id="tip"></div>
+
+<script>
+const DATA = [{"code": "PI-DE-01", "name": "POSCO INTL DEUTSCHLAND GmbH", "country": "독일", "region": "유럽", "sector": "철강트레이딩", "stake": 100.0, "emp": 64, "q": [31608.0, 33587.0, 33913.0, 32899.0], "rev": 132007.0, "qp": [1683.0, 1765.0, 1902.0, 1725.0], "op": 7075.0, "product": "STS/도금", "grade": "A"}, {"code": "PI-IT-02", "name": "POSCO INTL ITALIA S.R.L", "country": "이탈리아", "region": "유럽", "sector": "철강트레이딩", "stake": 100.0, "emp": 40, "q": [60905.0, 73634.0, 65482.0, 78513.0], "rev": 278534.0, "qp": [4207.0, 4407.0, 3972.0, 5887.0], "op": 18473.0, "product": "냉연/도금강판", "grade": "A"}, {"code": "PI-JP-03", "name": "POSCO INTL JAPAN CORP", "country": "일본", "region": "아시아", "sector": "철강트레이딩", "stake": 100.0, "emp": 23, "q": [29765.0, 30319.0, 27371.0, 34025.0], "rev": 121480.0, "qp": [1865.0, 2226.0, 1748.0, 2235.0], "op": 8074.0, "product": "STS/도금", "grade": "A"}, {"code": "PI-US-04", "name": "POSCO INTL AMERICA CORP", "country": "미국", "region": "북미", "sector": "철강트레이딩", "stake": 100.0, "emp": 69, "q": [56252.0, 59397.0, 57040.0, 58367.0], "rev": 231056.0, "qp": [3769.0, 3677.0, 3965.0, 3558.0], "op": 14969.0, "product": "자동차강판/에너지강재", "grade": "A+"}, {"code": "PI-MX-05", "name": "POSCO INTL MEXICO S.A. de C.V", "country": "멕시코", "region": "중남미", "sector": "철강트레이딩", "stake": 100.0, "emp": 62, "q": [87993.0, 85628.0, 83198.0, 93811.0], "rev": 350630.0, "qp": [4546.0, 5527.0, 5320.0, 4814.0], "op": 20207.0, "product": "STS/도금", "grade": "A"}, {"code": "PI-SG-06", "name": "POSCO INTL SINGAPORE PTE", "country": "싱가포르", "region": "아시아", "sector": "철강트레이딩", "stake": 51.0, "emp": 30, "q": [99103.0, 92137.0, 88476.0, 110514.0], "rev": 390230.0, "qp": [6357.0, 5998.0, 5933.0, 6590.0], "op": 24878.0, "product": "전기강판/자동차", "grade": "A"}, {"code": "PI-CN-07", "name": "POSCO INTL (SHANGHAI) CO", "country": "중국", "region": "아시아", "sector": "철강트레이딩", "stake": 100.0, "emp": 69, "q": [70426.0, 72812.0, 69377.0, 77363.0], "rev": 289978.0, "qp": [4747.0, 5266.0, 5056.0, 6169.0], "op": 21238.0, "product": "열연/냉연/후판", "grade": "A"}, {"code": "PI-VN-08", "name": "POSCO INTL VIETNAM CO", "country": "베트남", "region": "아시아", "sector": "철강트레이딩", "stake": 100.0, "emp": 48, "q": [49246.0, 45188.0, 47139.0, 53583.0], "rev": 195156.0, "qp": [2935.0, 3113.0, 3249.0, 3572.0], "op": 12869.0, "product": "전기강판/자동차", "grade": "A+"}, {"code": "PI-TH-09", "name": "POSCO INTL THAILAND LTD", "country": "태국", "region": "아시아", "sector": "철강트레이딩", "stake": 100.0, "emp": 30, "q": [46057.0, 54986.0, 45574.0, 59308.0], "rev": 205925.0, "qp": [2167.0, 2663.0, 2396.0, 2926.0], "op": 10152.0, "product": "냉연/도금강판", "grade": "A"}, {"code": "PI-IN-01", "name": "POSCO INTL INDIA PVT LTD", "country": "인도", "region": "아시아", "sector": "철강트레이딩", "stake": 100.0, "emp": 64, "q": [82830.0, 82496.0, 77867.0, 79712.0], "rev": 322905.0, "qp": [4618.0, 4850.0, 4808.0, 4326.0], "op": 18602.0, "product": "자동차강판/에너지강재", "grade": "A"}, {"code": "PI-AE-02", "name": "POSCO INTL UAE LLC", "country": "아랍에미리트", "region": "중동", "sector": "철강트레이딩", "stake": 100.0, "emp": 42, "q": [33086.0, 35442.0, 31051.0, 35864.0], "rev": 135443.0, "qp": [1467.0, 1914.0, 1586.0, 1790.0], "op": 6757.0, "product": "자동차강판/에너지강재", "grade": "A"}, {"code": "PI-TR-03", "name": "POSCO INTL TURKEY", "country": "튀르키예", "region": "유럽", "sector": "철강트레이딩", "stake": 100.0, "emp": 46, "q": [88187.0, 89465.0, 96371.0, 103966.0], "rev": 377989.0, "qp": [7300.0, 5604.0, 6987.0, 8009.0], "op": 27900.0, "product": "냉연/도금강판", "grade": "A"}, {"code": "PI-BR-04", "name": "POSCO INTL BRAZIL", "country": "브라질", "region": "중남미", "sector": "철강트레이딩", "stake": 19.9, "emp": 20, "q": [57206.0, 56271.0, 56894.0, 59353.0], "rev": 229724.0, "qp": [3599.0, 3297.0, 3853.0, 3834.0], "op": 14583.0, "product": "열연/후판/선재", "grade": "A"}, {"code": "PI-UK-05", "name": "POSCO INTL UK LTD", "country": "영국", "region": "유럽", "sector": "철강트레이딩", "stake": 100.0, "emp": 26, "q": [80139.0, 98989.0, 90816.0, 98797.0], "rev": 368741.0, "qp": [4484.0, 6752.0, 5434.0, 7198.0], "op": 23868.0, "product": "열연/후판/선재", "grade": "A"}, {"code": "PI-ES-06", "name": "POSCO INTL IBERICA S.A.", "country": "스페인", "region": "유럽", "sector": "철강트레이딩", "stake": 100.0, "emp": 38, "q": [52046.0, 52574.0, 50866.0, 57776.0], "rev": 213262.0, "qp": [2751.0, 3015.0, 2622.0, 3026.0], "op": 11414.0, "product": "STS/도금", "grade": "B+"}, {"code": "PI-FR-07", "name": "POSCO INTL FRANCE SAS", "country": "프랑스", "region": "유럽", "sector": "철강트레이딩", "stake": 100.0, "emp": 60, "q": [60393.0, 61550.0, 55118.0, 63945.0], "rev": 241006.0, "qp": [2393.0, 2740.0, 2361.0, 2925.0], "op": 10419.0, "product": "열연/냉연/후판", "grade": "A"}, {"code": "PI-BE-08", "name": "POSCO INTL BENELUX BV", "country": "벨기에", "region": "유럽", "sector": "철강트레이딩", "stake": 60.0, "emp": 35, "q": [34653.0, 36719.0, 34488.0, 35685.0], "rev": 141545.0, "qp": [2342.0, 2490.0, 2096.0, 2226.0], "op": 9154.0, "product": "열연/후판/선재", "grade": "B+"}, {"code": "PI-CZ-09", "name": "POSCO INTL CZECH s.r.o.", "country": "체코", "region": "유럽", "sector": "철강트레이딩", "stake": 100.0, "emp": 22, "q": [29616.0, 29915.0, 27316.0, 32802.0], "rev": 119649.0, "qp": [2135.0, 1822.0, 1781.0, 2325.0], "op": 8063.0, "product": "철강원료/열연", "grade": "A"}, {"code": "PI-HU-01", "name": "POSCO INTL HUNGARY Kft", "country": "헝가리", "region": "유럽", "sector": "철강트레이딩", "stake": 100.0, "emp": 53, "q": [37075.0, 46141.0, 44560.0, 44157.0], "rev": 171933.0, "qp": [2377.0, 3141.0, 3107.0, 2868.0], "op": 11493.0, "product": "철강원료/열연", "grade": "B+"}, {"code": "PI-CA-02", "name": "POSCO INTL CANADA INC", "country": "캐나다", "region": "북미", "sector": "철강트레이딩", "stake": 100.0, "emp": 41, "q": [56532.0, 60420.0, 49921.0, 60789.0], "rev": 227662.0, "qp": [3675.0, 3735.0, 3323.0, 3405.0], "op": 14138.0, "product": "전기강판/자동차", "grade": "B+"}, {"code": "PI-AR-03", "name": "POSCO INTL ARGENTINA", "country": "아르헨티나", "region": "중남미", "sector": "철강트레이딩", "stake": 100.0, "emp": 67, "q": [86782.0, 98313.0, 88249.0, 91660.0], "rev": 365004.0, "qp": [5354.0, 7364.0, 6334.0, 5352.0], "op": 24404.0, "product": "철강원료/열연", "grade": "A"}, {"code": "PI-CL-04", "name": "POSCO INTL CHILE S.A.", "country": "칠레", "region": "중남미", "sector": "철강트레이딩", "stake": 100.0, "emp": 59, "q": [26992.0, 24982.0, 22453.0, 30218.0], "rev": 104645.0, "qp": [1193.0, 1072.0, 1127.0, 1550.0], "op": 4942.0, "product": "열연/냉연/후판", "grade": "A"}, {"code": "PI-PE-05", "name": "POSCO INTL PERU", "country": "페루", "region": "중남미", "sector": "철강트레이딩", "stake": 100.0, "emp": 53, "q": [31538.0, 33415.0, 33905.0, 37088.0], "rev": 135946.0, "qp": [1947.0, 1957.0, 2464.0, 2562.0], "op": 8930.0, "product": "전기강판/자동차", "grade": "A"}, {"code": "PI-CO-06", "name": "POSCO INTL COLOMBIA", "country": "콜롬비아", "region": "중남미", "sector": "철강트레이딩", "stake": 100.0, "emp": 70, "q": [35344.0, 41877.0, 38555.0, 47683.0], "rev": 163459.0, "qp": [1803.0, 1805.0, 1713.0, 2019.0], "op": 7340.0, "product": "전기강판/자동차", "grade": "B+"}, {"code": "PI-SA-07", "name": "POSCO INTL SAUDI ARABIA", "country": "사우디", "region": "중동", "sector": "철강트레이딩", "stake": 100.0, "emp": 65, "q": [62572.0, 58946.0, 63759.0, 68470.0], "rev": 253747.0, "qp": [2838.0, 2824.0, 3342.0, 3204.0], "op": 12208.0, "product": "철강원료/열연", "grade": "A"}, {"code": "PI-QA-08", "name": "POSCO INTL QATAR", "country": "카타르", "region": "중동", "sector": "철강트레이딩", "stake": 100.0, "emp": 30, "q": [42163.0, 40920.0, 37099.0, 43212.0], "rev": 163394.0, "qp": [2742.0, 2602.0, 2584.0, 2837.0], "op": 10765.0, "product": "선재/건설용", "grade": "A"}, {"code": "PI-ZA-09", "name": "POSCO INTL SOUTH AFRICA", "country": "남아공", "region": "아프리카", "sector": "철강트레이딩", "stake": 100.0, "emp": 26, "q": [93561.0, 95319.0, 91543.0, 99714.0], "rev": 380137.0, "qp": [6711.0, 5745.0, 6063.0, 7342.0], "op": 25861.0, "product": "열연/냉연/후판", "grade": "A+"}, {"code": "PI-EG-01", "name": "POSCO INTL EGYPT", "country": "이집트", "region": "아프리카", "sector": "철강트레이딩", "stake": 100.0, "emp": 24, "q": [85910.0, 85063.0, 74935.0, 90929.0], "rev": 336837.0, "qp": [5997.0, 5690.0, 4806.0, 6338.0], "op": 22831.0, "product": "열연/후판/선재", "grade": "A+"}, {"code": "PI-AU-02", "name": "POSCO INTL AUSTRALIA Pty", "country": "호주", "region": "대양주", "sector": "철강트레이딩", "stake": 100.0, "emp": 30, "q": [44302.0, 45935.0, 47450.0, 55001.0], "rev": 192688.0, "qp": [2071.0, 2318.0, 2264.0, 3131.0], "op": 9784.0, "product": "STS/도금", "grade": "A+"}, {"code": "PI-NZ-03", "name": "POSCO INTL NEW ZEALAND", "country": "뉴질랜드", "region": "대양주", "sector": "철강트레이딩", "stake": 100.0, "emp": 25, "q": [50782.0, 53225.0, 51809.0, 54366.0], "rev": 210182.0, "qp": [2907.0, 3350.0, 3085.0, 3111.0], "op": 12453.0, "product": "열연/냉연/후판", "grade": "B+"}, {"code": "PI-MY-04", "name": "POSCO INTL MALAYSIA SDN", "country": "말레이시아", "region": "아시아", "sector": "철강트레이딩", "stake": 100.0, "emp": 34, "q": [26599.0, 29558.0, 28278.0, 29685.0], "rev": 114120.0, "qp": [1214.0, 1256.0, 1500.0, 1247.0], "op": 5217.0, "product": "전기강판/자동차", "grade": "B+"}, {"code": "PI-PH-05", "name": "POSCO INTL PHILIPPINES", "country": "필리핀", "region": "아시아", "sector": "철강트레이딩", "stake": 100.0, "emp": 23, "q": [51534.0, 47528.0, 47743.0, 56573.0], "rev": 203378.0, "qp": [3331.0, 3193.0, 2735.0, 4016.0], "op": 13275.0, "product": "전기강판/자동차", "grade": "A"}, {"code": "PI-KZ-06", "name": "POSCO INTL KAZAKHSTAN", "country": "카자흐스탄", "region": "아시아", "sector": "철강트레이딩", "stake": 100.0, "emp": 47, "q": [64802.0, 72997.0, 70380.0, 75502.0], "rev": 283681.0, "qp": [4881.0, 5240.0, 4780.0, 4937.0], "op": 19838.0, "product": "철강원료/열연", "grade": "A"}, {"code": "PI-PL-07", "name": "POSCO INTL POLAND E-MOBILITY", "country": "폴란드", "region": "유럽", "sector": "모빌리티", "stake": 85.0, "emp": 158, "q": [33292.0, 33548.0, 29355.0, 34629.0], "rev": 130824.0, "qp": [1407.0, 1297.0, 1099.0, 1210.0], "op": 5013.0, "product": "구동모터코아/핵심부품", "grade": "B+"}, {"code": "PI-IN-08", "name": "POSCO INTL INDIA E-MOBILITY", "country": "인도", "region": "아시아", "sector": "모빌리티", "stake": 100.0, "emp": 194, "q": [25556.0, 26545.0, 27936.0, 28452.0], "rev": 108489.0, "qp": [1071.0, 1037.0, 1142.0, 1088.0], "op": 4338.0, "product": "구동모터코아", "grade": "A"}, {"code": "PI-MX-09", "name": "POSCO INTL MEXICO E-MOBILITY", "country": "멕시코", "region": "중남미", "sector": "모빌리티", "stake": 100.0, "emp": 134, "q": [69510.0, 71727.0, 70088.0, 74211.0], "rev": 285536.0, "qp": [2371.0, 2561.0, 2486.0, 3125.0], "op": 10543.0, "product": "구동모터코아/핵심부품", "grade": "A+"}, {"code": "PI-CN-01", "name": "Suzhou POSCO CORE TECH", "country": "중국", "region": "아시아", "sector": "모빌리티", "stake": 51.0, "emp": 120, "q": [24678.0, 27709.0, 25098.0, 30122.0], "rev": 107607.0, "qp": [826.0, 790.0, 647.0, 827.0], "op": 3090.0, "product": "구동모터코아/핵심부품", "grade": "A"}, {"code": "PI-HU-02", "name": "POSCO INTL HUNGARY E-MOBILITY", "country": "헝가리", "region": "유럽", "sector": "모빌리티", "stake": 100.0, "emp": 208, "q": [56724.0, 61148.0, 55045.0, 64120.0], "rev": 237037.0, "qp": [-18.0, -20.0, -14.0, -21.0], "op": -73.0, "product": "배터리 셀 케이스", "grade": "A"}, {"code": "PI-DE-03", "name": "POSCO INTL GERMANY E-MOBILITY", "country": "독일", "region": "유럽", "sector": "모빌리티", "stake": 100.0, "emp": 221, "q": [47263.0, 54107.0, 51874.0, 58907.0], "rev": 212151.0, "qp": [-243.0, -367.0, -269.0, -359.0], "op": -1238.0, "product": "전기차 부품", "grade": "A"}, {"code": "PI-US-04", "name": "POSCO INTL TEXAS E-MOBILITY", "country": "미국", "region": "북미", "sector": "모빌리티", "stake": 100.0, "emp": 154, "q": [29718.0, 33085.0, 29141.0, 36828.0], "rev": 128772.0, "qp": [1742.0, 2246.0, 1699.0, 2740.0], "op": 8427.0, "product": "구동모터코아/전장부품", "grade": "B+"}, {"code": "PI-CZ-05", "name": "POSCO INTL CZECH MOTOR CORE", "country": "체코", "region": "유럽", "sector": "모빌리티", "stake": 19.9, "emp": 166, "q": [42440.0, 41704.0, 41196.0, 48086.0], "rev": 173426.0, "qp": [3199.0, 3073.0, 2916.0, 3428.0], "op": 12616.0, "product": "배터리 셀 케이스", "grade": "B+"}, {"code": "PI-VN-06", "name": "POSCO INTL VIETNAM E-MOBILITY", "country": "베트남", "region": "아시아", "sector": "모빌리티", "stake": 100.0, "emp": 225, "q": [68442.0, 71121.0, 69328.0, 73432.0], "rev": 282323.0, "qp": [-822.0, -914.0, -881.0, -987.0], "op": -3604.0, "product": "전기차 부품", "grade": "B"}, {"code": "PI-TH-07", "name": "POSCO INTL THAILAND MOBILITY", "country": "태국", "region": "아시아", "sector": "모빌리티", "stake": 100.0, "emp": 215, "q": [70604.0, 63301.0, 60910.0, 71253.0], "rev": 266068.0, "qp": [4377.0, 4037.0, 4714.0, 5386.0], "op": 18514.0, "product": "배터리 셀 케이스", "grade": "A"}, {"code": "PI-MY-08", "name": "POSCO INTL MY E-MOBILITY", "country": "말레이시아", "region": "아시아", "sector": "모빌리티", "stake": 100.0, "emp": 236, "q": [58677.0, 65537.0, 60758.0, 70531.0], "rev": 255503.0, "qp": [-9.0, -10.0, -8.0, -9.0], "op": -36.0, "product": "구동모터코아", "grade": "A+"}, {"code": "PI-ID-09", "name": "PT POSCO INTL E-MOBILITY", "country": "인도네시아", "region": "아시아", "sector": "모빌리티", "stake": 100.0, "emp": 195, "q": [30103.0, 28325.0, 30930.0, 32832.0], "rev": 122190.0, "qp": [-177.0, -196.0, -218.0, -227.0], "op": -818.0, "product": "전기차 부품", "grade": "B"}, {"code": "PI-JP-01", "name": "POSCO INTL JAPAN MOTOR", "country": "일본", "region": "아시아", "sector": "모빌리티", "stake": 19.9, "emp": 210, "q": [63458.0, 70357.0, 71388.0, 68741.0], "rev": 273944.0, "qp": [3173.0, 4053.0, 3281.0, 3544.0], "op": 14051.0, "product": "구동모터코아", "grade": "A+"}, {"code": "PI-CA-02", "name": "POSCO INTL CANADA E-MOBILITY", "country": "캐나다", "region": "북미", "sector": "모빌리티", "stake": 100.0, "emp": 133, "q": [62023.0, 66342.0, 57526.0, 61167.0], "rev": 247058.0, "qp": [2262.0, 1910.0, 1981.0, 1827.0], "op": 7980.0, "product": "구동모터코아/전장부품", "grade": "A"}, {"code": "PI-BR-03", "name": "POSCO INTL BRAZIL E-MOBILITY", "country": "브라질", "region": "중남미", "sector": "모빌리티", "stake": 51.0, "emp": 233, "q": [38470.0, 42148.0, 42484.0, 46118.0], "rev": 169220.0, "qp": [1041.0, 1086.0, 1130.0, 1395.0], "op": 4652.0, "product": "전기차 부품", "grade": "B"}, {"code": "PI-AR-04", "name": "POSCO INTL ARGENTINA MOBILITY", "country": "아르헨티나", "region": "중남미", "sector": "모빌리티", "stake": 100.0, "emp": 199, "q": [49375.0, 53172.0, 55924.0, 61472.0], "rev": 219943.0, "qp": [-151.0, -188.0, -172.0, -237.0], "op": -748.0, "product": "배터리 셀 케이스", "grade": "A+"}, {"code": "PI-MM-05", "name": "미얀마가스전", "country": "미얀마", "region": "아시아", "sector": "에너지", "stake": 100.0, "emp": 105, "q": [63399.0, 64805.0, 55923.0, 64014.0], "rev": 248141.0, "qp": [-3062.0, -3471.0, -2958.0, -3061.0], "op": -12552.0, "product": "가스탐사/개발", "grade": "A+"}, {"code": "PI-AU-06", "name": "SENEX HOLDINGS PTY LTD", "country": "호주", "region": "대양주", "sector": "에너지", "stake": 100.0, "emp": 212, "q": [84867.0, 92397.0, 87262.0, 103650.0], "rev": 368176.0, "qp": [7296.0, 7764.0, 8347.0, 9291.0], "op": 32698.0, "product": "에너지 발전", "grade": "B"}, {"code": "PI-MY-07", "name": "POSCO INTL E&P MALAYSIA", "country": "말레이시아", "region": "아시아", "sector": "에너지", "stake": 100.0, "emp": 268, "q": [89024.0, 86016.0, 76507.0, 86092.0], "rev": 337639.0, "qp": [5335.0, 4616.0, 5069.0, 5706.0], "op": 20726.0, "product": "LNG 트레이딩", "grade": "B"}, {"code": "PI-ID-08", "name": "PT POSCO INTL E&P INDONESIA", "country": "인도네시아", "region": "아시아", "sector": "에너지", "stake": 100.0, "emp": 301, "q": [16000.0, 16349.0, 16249.0, 17525.0], "rev": 66123.0, "qp": [1788.0, 1845.0, 2423.0, 2464.0], "op": 8520.0, "product": "신재생 발전", "grade": "A+"}, {"code": "PI-ID-09", "name": "PT.KPE", "country": "인도네시아", "region": "아시아", "sector": "에너지", "stake": 100.0, "emp": 249, "q": [83731.0, 82559.0, 79698.0, 87086.0], "rev": 333074.0, "qp": [12241.0, 11075.0, 11068.0, 13302.0], "op": 47686.0, "product": "LNG 트레이딩", "grade": "A+"}, {"code": "PI-ID-01", "name": "PT.KPE 2호기", "country": "인도네시아", "region": "아시아", "sector": "에너지", "stake": 100.0, "emp": 106, "q": [18028.0, 19216.0, 19158.0, 21144.0], "rev": 77546.0, "qp": [1104.0, 1078.0, 1255.0, 1307.0], "op": 4744.0, "product": "가스탐사/개발", "grade": "B+"}, {"code": "PI-US-02", "name": "POSCO INTL CCS USA LLC", "country": "미국", "region": "북미", "sector": "에너지", "stake": 100.0, "emp": 335, "q": [31851.0, 33847.0, 30700.0, 33000.0], "rev": 129398.0, "qp": [3800.0, 4528.0, 4147.0, 4777.0], "op": 17252.0, "product": "에너지 발전", "grade": "A+"}, {"code": "PI-OM-03", "name": "POSCO INTL OMAN LNG", "country": "오만", "region": "중동", "sector": "에너지", "stake": 100.0, "emp": 226, "q": [34929.0, 37821.0, 41735.0, 41820.0], "rev": 156305.0, "qp": [-1549.0, -1713.0, -2219.0, -2055.0], "op": -7536.0, "product": "부생가스발전", "grade": "A+"}, {"code": "PI-QA-04", "name": "POSCO INTL QATAR ENERGY", "country": "카타르", "region": "중동", "sector": "에너지", "stake": 100.0, "emp": 390, "q": [76083.0, 90171.0, 85712.0, 91631.0], "rev": 343597.0, "qp": [10723.0, 10777.0, 13545.0, 14552.0], "op": 49597.0, "product": "에너지 발전", "grade": "B"}, {"code": "PI-AE-05", "name": "POSCO INTL UAE ENERGY", "country": "아랍에미리트", "region": "중동", "sector": "에너지", "stake": 60.0, "emp": 181, "q": [7186.0, 7396.0, 6187.0, 7617.0], "rev": 28386.0, "qp": [344.0, 340.0, 274.0, 354.0], "op": 1312.0, "product": "신재생 발전", "grade": "B"}, {"code": "PI-AU-06", "name": "POSCO INTL AUSTRALIA LNG", "country": "호주", "region": "대양주", "sector": "에너지", "stake": 80.0, "emp": 272, "q": [10100.0, 10370.0, 9796.0, 10923.0], "rev": 41189.0, "qp": [639.0, 569.0, 593.0, 700.0], "op": 2501.0, "product": "가스탐사/개발", "grade": "A+"}, {"code": "PI-MZ-07", "name": "POSCO INTL MOZAMBIQUE LNG", "country": "모잠비크", "region": "아프리카", "sector": "에너지", "stake": 50.1, "emp": 121, "q": [33246.0, 39545.0, 33906.0, 38782.0], "rev": 145479.0, "qp": [2244.0, 2536.0, 2134.0, 2729.0], "op": 9643.0, "product": "천연가스", "grade": "B"}, {"code": "PI-BD-08", "name": "POSCO INTL BANGLADESH POWER", "country": "방글라데시", "region": "아시아", "sector": "에너지", "stake": 80.0, "emp": 288, "q": [61838.0, 75788.0, 71835.0, 78883.0], "rev": 288344.0, "qp": [7534.0, 9845.0, 9313.0, 9169.0], "op": 35861.0, "product": "천연가스", "grade": "B"}, {"code": "PI-PH-09", "name": "POSCO INTL PHILIPPINES POWER", "country": "필리핀", "region": "아시아", "sector": "에너지", "stake": 100.0, "emp": 94, "q": [11702.0, 12173.0, 11639.0, 12254.0], "rev": 47768.0, "qp": [1514.0, 1899.0, 1474.0, 1678.0], "op": 6565.0, "product": "가스탐사/개발", "grade": "B"}, {"code": "PI-VN-01", "name": "POSCO INTL VIETNAM POWER", "country": "베트남", "region": "아시아", "sector": "에너지", "stake": 100.0, "emp": 84, "q": [54778.0, 61590.0, 50412.0, 63257.0], "rev": 230037.0, "qp": [-2247.0, -3315.0, -2175.0, -2985.0], "op": -10722.0, "product": "신재생 발전", "grade": "A"}, {"code": "PI-CN-02", "name": "POSCO INTL CHINA WIND POWER", "country": "중국", "region": "아시아", "sector": "에너지", "stake": 100.0, "emp": 262, "q": [85110.0, 88421.0, 86042.0, 86909.0], "rev": 346482.0, "qp": [-2049.0, -1942.0, -1948.0, -1873.0], "op": -7812.0, "product": "부생가스발전", "grade": "B"}, {"code": "PI-TZ-03", "name": "POSCO INTL TANZANIA MAHENGE", "country": "탄자니아", "region": "아프리카", "sector": "자원개발", "stake": 100.0, "emp": 44, "q": [786.0, 1285.0, 2198.0, 2801.0], "rev": 7070.0, "qp": [-104.0, -40.0, -71.0, -78.0], "op": -293.0, "product": "구리", "grade": "C+"}, {"code": "PI-AU-04", "name": "POSCO INTL AUSTRALIA LITHIUM", "country": "호주", "region": "대양주", "sector": "자원개발", "stake": 100.0, "emp": 45, "q": [401.0, 1242.0, 2409.0, 3538.0], "rev": 7590.0, "qp": [-55.0, -122.0, -238.0, -355.0], "op": -770.0, "product": "흑연(이차전지원료)", "grade": "C+"}, {"code": "PI-CL-05", "name": "POSCO INTL CHILE LITHIUM", "country": "칠레", "region": "중남미", "sector": "자원개발", "stake": 19.9, "emp": 36, "q": [142.0, 464.0, 765.0, 1080.0], "rev": 2451.0, "qp": [-18.0, 44.0, 71.0, 120.0], "op": 217.0, "product": "니켈광산", "grade": "B"}, {"code": "PI-AR-06", "name": "POSCO INTL ARGENTINA LITHIUM", "country": "아르헨티나", "region": "중남미", "sector": "자원개발", "stake": 100.0, "emp": 57, "q": [817.0, 3660.0, 5752.0, 5783.0], "rev": 16012.0, "qp": [-65.0, 451.0, 696.0, 725.0], "op": 1807.0, "product": "희토류", "grade": "C+"}, {"code": "PI-ID-07", "name": "POSCO INTL INDONESIA NICKEL", "country": "인도네시아", "region": "아시아", "sector": "자원개발", "stake": 100.0, "emp": 47, "q": [1344.0, 1598.0, 2764.0, 3865.0], "rev": 9571.0, "qp": [-101.0, 181.0, 340.0, 418.0], "op": 838.0, "product": "희토류", "grade": "C"}, {"code": "PI-PH-08", "name": "POSCO INTL PHILIPPINES NICKEL", "country": "필리핀", "region": "아시아", "sector": "자원개발", "stake": 100.0, "emp": 40, "q": [596.0, 1619.0, 3160.0, 3967.0], "rev": 9342.0, "qp": [-116.0, 118.0, 266.0, 334.0], "op": 602.0, "product": "리튬", "grade": "C+"}, {"code": "PI-PE-09", "name": "POSCO INTL PERU COPPER", "country": "페루", "region": "중남미", "sector": "자원개발", "stake": 100.0, "emp": 58, "q": [1295.0, 1029.0, 2609.0, 3083.0], "rev": 8016.0, "qp": [-191.0, 18.0, 50.0, 60.0], "op": -63.0, "product": "구리", "grade": "B"}, {"code": "PI-CN-01", "name": "POSCO INTL CHINA RARE EARTH", "country": "중국", "region": "아시아", "sector": "자원개발", "stake": 100.0, "emp": 56, "q": [3.0, 1413.0, 2228.0, 2725.0], "rev": 6369.0, "qp": [0.0, 2.0, 3.0, 3.0], "op": 8.0, "product": "희토류", "grade": "C+"}, {"code": "PI-KZ-02", "name": "POSCO INTL KAZAKH MINING", "country": "카자흐스탄", "region": "아시아", "sector": "자원개발", "stake": 100.0, "emp": 54, "q": [67.0, 291.0, 657.0, 833.0], "rev": 1848.0, "qp": [-13.0, 33.0, 72.0, 75.0], "op": 167.0, "product": "흑연(이차전지원료)", "grade": "C"}, {"code": "PI-UA-03", "name": "Mykolaiv Milling Works", "country": "우크라이나", "region": "유럽", "sector": "식량", "stake": 100.0, "emp": 488, "q": [5899.0, 6531.0, 6531.0, 6543.0], "rev": 25504.0, "qp": [385.0, 521.0, 493.0, 479.0], "op": 1878.0, "product": "곡물집하물류", "grade": "A"}, {"code": "PI-ID-04", "name": "PT.BIA", "country": "인도네시아", "region": "아시아", "sector": "식량", "stake": 100.0, "emp": 400, "q": [27351.0, 26378.0, 27405.0, 30484.0], "rev": 111618.0, "qp": [2212.0, 2392.0, 2248.0, 2673.0], "op": 9525.0, "product": "옥수수 무역", "grade": "B+"}, {"code": "PI-ID-05", "name": "PT.ARC", "country": "인도네시아", "region": "아시아", "sector": "식량", "stake": 100.0, "emp": 396, "q": [34156.0, 39104.0, 36288.0, 37567.0], "rev": 147115.0, "qp": [2193.0, 3015.0, 2731.0, 2628.0], "op": 10567.0, "product": "밀 가공", "grade": "A"}, {"code": "PI-BR-06", "name": "POSCO INTL BRAZIL GRAIN", "country": "브라질", "region": "중남미", "sector": "식량", "stake": 100.0, "emp": 255, "q": [16884.0, 19098.0, 16176.0, 20163.0], "rev": 72321.0, "qp": [1304.0, 1350.0, 1056.0, 1308.0], "op": 5018.0, "product": "옥수수 무역", "grade": "B+"}, {"code": "PI-AR-07", "name": "POSCO INTL ARGENTINA GRAIN", "country": "아르헨티나", "region": "중남미", "sector": "식량", "stake": 100.0, "emp": 144, "q": [26756.0, 28529.0, 28717.0, 31354.0], "rev": 115356.0, "qp": [2729.0, 2664.0, 2577.0, 2861.0], "op": 10831.0, "product": "옥수수 무역", "grade": "B+"}, {"code": "PI-US-08", "name": "POSCO INTL USA GRAIN", "country": "미국", "region": "북미", "sector": "식량", "stake": 100.0, "emp": 468, "q": [34683.0, 32178.0, 32213.0, 33757.0], "rev": 132831.0, "qp": [2241.0, 1980.0, 1985.0, 1778.0], "op": 7984.0, "product": "팜유 정제", "grade": "B+"}, {"code": "PI-AU-09", "name": "POSCO INTL AUSTRALIA GRAIN", "country": "호주", "region": "대양주", "sector": "식량", "stake": 100.0, "emp": 597, "q": [40725.0, 38088.0, 35047.0, 38482.0], "rev": 152342.0, "qp": [2395.0, 2487.0, 2647.0, 2710.0], "op": 10239.0, "product": "밀 가공", "grade": "A"}, {"code": "PI-VN-01", "name": "POSCO INTL VIETNAM AGRO", "country": "베트남", "region": "아시아", "sector": "식량", "stake": 100.0, "emp": 527, "q": [24481.0, 26939.0, 28987.0, 28741.0], "rev": 109148.0, "qp": [1795.0, 2002.0, 2658.0, 2786.0], "op": 9241.0, "product": "팜유(CPO)", "grade": "A"}, {"code": "PI-MY-02", "name": "POSCO INTL MY PALM OIL", "country": "말레이시아", "region": "아시아", "sector": "식량", "stake": 100.0, "emp": 449, "q": [35974.0, 37861.0, 36859.0, 37888.0], "rev": 148582.0, "qp": [2764.0, 3006.0, 2440.0, 2392.0], "op": 10602.0, "product": "팜유 정제", "grade": "A"}, {"code": "PI-EG-03", "name": "POSCO INTL EGYPT WHEAT", "country": "이집트", "region": "아프리카", "sector": "식량", "stake": 100.0, "emp": 424, "q": [37151.0, 41649.0, 36205.0, 44381.0], "rev": 159386.0, "qp": [3262.0, 3276.0, 3018.0, 3857.0], "op": 13413.0, "product": "팜유(CPO)", "grade": "A"}, {"code": "PI-IN-04", "name": "POSCO INTL INDIA AGRO", "country": "인도", "region": "아시아", "sector": "식량", "stake": 100.0, "emp": 208, "q": [14254.0, 14472.0, 12619.0, 14756.0], "rev": 56101.0, "qp": [1306.0, 1078.0, 963.0, 1266.0], "op": 4613.0, "product": "옥수수 무역", "grade": "B+"}, {"code": "PI-BD-05", "name": "POSCO INTL BANGLADESH GRAIN", "country": "방글라데시", "region": "아시아", "sector": "식량", "stake": 100.0, "emp": 204, "q": [31668.0, 37783.0, 32261.0, 39871.0], "rev": 141583.0, "qp": [1960.0, 2375.0, 2195.0, 2922.0], "op": 9452.0, "product": "옥수수 무역", "grade": "A"}, {"code": "PI-HK-06", "name": "POSCO INTL HONG KONG", "country": "홍콩", "region": "아시아", "sector": "바이오소재", "stake": 85.0, "emp": 29, "q": [49808.0, 46663.0, 43426.0, 49644.0], "rev": 189541.0, "qp": [2223.0, 2349.0, 2008.0, 2170.0], "op": 8750.0, "product": "바이오 폴리머", "grade": "A"}, {"code": "PI-NL-07", "name": "POSCO INTL NETHERLANDS", "country": "네덜란드", "region": "유럽", "sector": "바이오소재", "stake": 100.0, "emp": 25, "q": [40514.0, 40566.0, 43403.0, 44637.0], "rev": 169120.0, "qp": [2770.0, 3288.0, 3316.0, 3175.0], "op": 12549.0, "product": "재생수지/SAF원료", "grade": "A"}, {"code": "PI-SG-08", "name": "POSCO INTL BIO SINGAPORE", "country": "싱가포르", "region": "아시아", "sector": "바이오소재", "stake": 100.0, "emp": 28, "q": [34234.0, 36790.0, 29705.0, 35006.0], "rev": 135735.0, "qp": [1874.0, 1863.0, 1534.0, 1701.0], "op": 6972.0, "product": "합성수지/화성제품", "grade": "A+"}, {"code": "PI-US-09", "name": "POSCO INTL BIO USA", "country": "미국", "region": "북미", "sector": "바이오소재", "stake": 100.0, "emp": 40, "q": [36425.0, 36751.0, 36846.0, 34597.0], "rev": 144619.0, "qp": [2374.0, 2730.0, 2493.0, 2292.0], "op": 9889.0, "product": "친환경 소재", "grade": "B+"}, {"code": "PI-DE-01", "name": "POSCO INTL BIO GERMANY", "country": "독일", "region": "유럽", "sector": "바이오소재", "stake": 100.0, "emp": 30, "q": [36487.0, 44953.0, 40865.0, 45106.0], "rev": 167411.0, "qp": [2448.0, 2479.0, 2712.0, 3185.0], "op": 10824.0, "product": "친환경 소재", "grade": "A"}, {"code": "PI-FR-02", "name": "POSCO INTL BIO FRANCE", "country": "프랑스", "region": "유럽", "sector": "바이오소재", "stake": 85.0, "emp": 45, "q": [39474.0, 40590.0, 40420.0, 44245.0], "rev": 164729.0, "qp": [2529.0, 1992.0, 2359.0, 2487.0], "op": 9367.0, "product": "바이오 폴리머", "grade": "B+"}, {"code": "PI-JP-03", "name": "POSCO INTL BIO JAPAN", "country": "일본", "region": "아시아", "sector": "바이오소재", "stake": 100.0, "emp": 40, "q": [53576.0, 50115.0, 46431.0, 52257.0], "rev": 202379.0, "qp": [3106.0, 2505.0, 2480.0, 2344.0], "op": 10435.0, "product": "친환경 소재", "grade": "B+"}, {"code": "PI-CN-04", "name": "POSCO INTL BIO SHANGHAI", "country": "중국", "region": "아시아", "sector": "바이오소재", "stake": 100.0, "emp": 30, "q": [55009.0, 50485.0, 47326.0, 57651.0], "rev": 210471.0, "qp": [2948.0, 2354.0, 2586.0, 2921.0], "op": 10809.0, "product": "바이오 폴리머", "grade": "A+"}, {"code": "PI-TW-05", "name": "POSCO INTL BIO TAIWAN", "country": "대만", "region": "아시아", "sector": "바이오소재", "stake": 100.0, "emp": 34, "q": [29620.0, 33597.0, 32069.0, 37017.0], "rev": 132303.0, "qp": [1948.0, 2250.0, 2418.0, 2804.0], "op": 9420.0, "product": "재생수지/SAF원료", "grade": "A+"}, {"code": "PI-ES-06", "name": "POSCO INTL BIO SPAIN", "country": "스페인", "region": "유럽", "sector": "바이오소재", "stake": 100.0, "emp": 33, "q": [24800.0, 25395.0, 26401.0, 30264.0], "rev": 106860.0, "qp": [1517.0, 1548.0, 1849.0, 2069.0], "op": 6983.0, "product": "합성수지/화성제품", "grade": "A+"}, {"code": "PI-AU-07", "name": "POSCO INTL HYDROGEN AUS", "country": "호주", "region": "대양주", "sector": "그린수소", "stake": 85.0, "emp": 68, "q": [7263.0, 8878.0, 11299.0, 12913.0], "rev": 40353.0, "qp": [-982.0, -151.0, -214.0, -255.0], "op": -1602.0, "product": "그린수소 생산", "grade": "C"}, {"code": "PI-OM-08", "name": "POSCO INTL OMAN GREEN H2", "country": "오만", "region": "중동", "sector": "그린수소", "stake": 60.0, "emp": 56, "q": [2657.0, 3248.0, 4134.0, 4725.0], "rev": 14764.0, "qp": [-167.0, 33.0, 55.0, 60.0], "op": -19.0, "product": "암모니아 합성", "grade": "C+"}, {"code": "PI-SA-09", "name": "POSCO INTL SAUDI GREEN H2", "country": "사우디", "region": "중동", "sector": "그린수소", "stake": 100.0, "emp": 37, "q": [7422.0, 9071.0, 11546.0, 13195.0], "rev": 41234.0, "qp": [-685.0, -58.0, -73.0, -85.0], "op": -901.0, "product": "암모니아 합성", "grade": "B"}, {"code": "PI-AE-01", "name": "POSCO INTL UAE HYDROGEN", "country": "아랍에미리트", "region": "중동", "sector": "그린수소", "stake": 100.0, "emp": 28, "q": [3546.0, 4334.0, 5516.0, 6304.0], "rev": 19700.0, "qp": [-705.0, -254.0, -303.0, -363.0], "op": -1625.0, "product": "그린수소 생산", "grade": "B"}, {"code": "PI-CL-02", "name": "POSCO INTL CHILE GREEN H2", "country": "칠레", "region": "중남미", "sector": "그린수소", "stake": 100.0, "emp": 41, "q": [7949.0, 9716.0, 12366.0, 14133.0], "rev": 44164.0, "qp": [-1568.0, -643.0, -788.0, -910.0], "op": -3909.0, "product": "그린수소 생산", "grade": "C"}, {"code": "PI-ZA-03", "name": "POSCO INTL SA HYDROGEN", "country": "남아공", "region": "아프리카", "sector": "그린수소", "stake": 100.0, "emp": 95, "q": [6615.0, 8085.0, 10290.0, 11760.0], "rev": 36750.0, "qp": [-1287.0, -442.0, -591.0, -604.0], "op": -2924.0, "product": "수소 인프라", "grade": "C"}, {"code": "PI-CA-04", "name": "POSCO INTL CANADA H2", "country": "캐나다", "region": "북미", "sector": "그린수소", "stake": 51.0, "emp": 58, "q": [5789.0, 7076.0, 9006.0, 10292.0], "rev": 32163.0, "qp": [-892.0, -507.0, -672.0, -777.0], "op": -2848.0, "product": "그린수소 생산", "grade": "C+"}, {"code": "PI-NZ-05", "name": "POSCO INTL NZ HYDROGEN", "country": "뉴질랜드", "region": "대양주", "sector": "그린수소", "stake": 100.0, "emp": 28, "q": [755.0, 922.0, 1174.0, 1342.0], "rev": 4193.0, "qp": [-150.0, -10.0, -14.0, -18.0], "op": -192.0, "product": "수소 트레이딩", "grade": "C+"}, {"code": "PI-NL-06", "name": "POSCO INTL NL HYDROGEN HUB", "country": "네덜란드", "region": "유럽", "sector": "그린수소", "stake": 100.0, "emp": 59, "q": [6249.0, 7638.0, 9721.0, 11109.0], "rev": 34717.0, "qp": [-486.0, 345.0, 419.0, 481.0], "op": 759.0, "product": "그린수소 생산", "grade": "B"}, {"code": "PI-DE-07", "name": "POSCO INTL DE HYDROGEN", "country": "독일", "region": "유럽", "sector": "그린수소", "stake": 100.0, "emp": 88, "q": [1585.0, 1937.0, 2466.0, 2818.0], "rev": 8806.0, "qp": [-123.0, -38.0, -50.0, -66.0], "op": -277.0, "product": "암모니아 합성", "grade": "B"}, {"code": "PI-US-08", "name": "POSCO INTL US CCS LLC", "country": "미국", "region": "북미", "sector": "CCS사업", "stake": 51.0, "emp": 21, "q": [543.0, 663.0, 844.0, 965.0], "rev": 3015.0, "qp": [-48.0, -101.0, -148.0, -164.0], "op": -461.0, "product": "CO₂ 수송", "grade": "C"}, {"code": "PI-AU-09", "name": "POSCO INTL AUS CCS", "country": "호주", "region": "대양주", "sector": "CCS사업", "stake": 100.0, "emp": 33, "q": [890.0, 1088.0, 1385.0, 1583.0], "rev": 4946.0, "qp": [-159.0, -88.0, -111.0, -147.0], "op": -505.0, "product": "지중저장 기술", "grade": "C"}, {"code": "PI-UK-01", "name": "POSCO INTL UK CCS", "country": "영국", "region": "유럽", "sector": "CCS사업", "stake": 80.0, "emp": 27, "q": [832.0, 1017.0, 1295.0, 1480.0], "rev": 4624.0, "qp": [-159.0, -84.0, -104.0, -144.0], "op": -491.0, "product": "지중저장 기술", "grade": "C"}, {"code": "PI-SE-02", "name": "POSCO INTL SWEDEN CCS", "country": "스웨덴", "region": "유럽", "sector": "CCS사업", "stake": 100.0, "emp": 38, "q": [373.0, 456.0, 580.0, 663.0], "rev": 2072.0, "qp": [-60.0, -29.0, -31.0, -37.0], "op": -157.0, "product": "탄소포집", "grade": "C"}, {"code": "PI-CA-03", "name": "POSCO INTL CANADA CCS", "country": "캐나다", "region": "북미", "sector": "CCS사업", "stake": 100.0, "emp": 38, "q": [409.0, 500.0, 637.0, 728.0], "rev": 2274.0, "qp": [-31.0, -17.0, -18.0, -22.0], "op": -88.0, "product": "CO₂ 수송", "grade": "B"}, {"code": "PI-JP-04", "name": "POSCO INTL JAPAN CCS", "country": "일본", "region": "아시아", "sector": "CCS사업", "stake": 100.0, "emp": 38, "q": [465.0, 568.0, 723.0, 827.0], "rev": 2583.0, "qp": [-91.0, -101.0, -127.0, -161.0], "op": -480.0, "product": "지중저장 기술", "grade": "C"}, {"code": "PI-FI-05", "name": "POSCO INTL FINLAND CCS", "country": "핀란드", "region": "유럽", "sector": "CCS사업", "stake": 100.0, "emp": 40, "q": [139.0, 170.0, 216.0, 247.0], "rev": 772.0, "qp": [-7.0, -11.0, -14.0, -17.0], "op": -49.0, "product": "CCS기술개발", "grade": "C+"}, {"code": "PI-MY-06", "name": "POSCO INTL MALAYSIA CCS", "country": "말레이시아", "region": "아시아", "sector": "CCS사업", "stake": 100.0, "emp": 25, "q": [789.0, 964.0, 1227.0, 1403.0], "rev": 4383.0, "qp": [-122.0, -87.0, -116.0, -124.0], "op": -449.0, "product": "CO₂ 수송", "grade": "C"}, {"code": "PI-ID-07", "name": "POSCO INTL INDO CCS", "country": "인도네시아", "region": "아시아", "sector": "CCS사업", "stake": 100.0, "emp": 38, "q": [49.0, 60.0, 76.0, 87.0], "rev": 272.0, "qp": [-5.0, -11.0, -13.0, -14.0], "op": -43.0, "product": "탄소포집", "grade": "B"}, {"code": "PI-ZA-08", "name": "POSCO INTL SA CCS", "country": "남아공", "region": "아프리카", "sector": "CCS사업", "stake": 100.0, "emp": 18, "q": [423.0, 517.0, 658.0, 752.0], "rev": 2350.0, "qp": [-52.0, -23.0, -25.0, -25.0], "op": -125.0, "product": "CCS기술개발", "grade": "B"}, {"code": "PI-BR-09", "name": "POSCO INTL BIO BRAZIL", "country": "브라질", "region": "중남미", "sector": "바이오소재", "stake": 100.0, "emp": 34, "q": [27503.0, 26273.0, 24912.0, 25753.0], "rev": 104441.0, "qp": [1350.0, 1462.0, 1275.0, 1207.0], "op": 5294.0, "product": "친환경 소재", "grade": "A"}, {"code": "PI-MX-01", "name": "POSCO INTL BIO MEXICO", "country": "멕시코", "region": "중남미", "sector": "바이오소재", "stake": 100.0, "emp": 25, "q": [37828.0, 40169.0, 38437.0, 36787.0], "rev": 153221.0, "qp": [2161.0, 1942.0, 1678.0, 1968.0], "op": 7749.0, "product": "재생수지/SAF원료", "grade": "B+"}, {"code": "PI-IL-02", "name": "POSCO INTL ISRAEL ENERGY", "country": "이스라엘", "region": "중동", "sector": "에너지", "stake": 100.0, "emp": 155, "q": [70604.0, 70783.0, 69977.0, 75840.0], "rev": 287204.0, "qp": [-2560.0, -2215.0, -2729.0, -2453.0], "op": -9957.0, "product": "천연가스", "grade": "B+"}, {"code": "PI-FI-03", "name": "POSCO INTL FINLAND POWER", "country": "핀란드", "region": "유럽", "sector": "에너지", "stake": 100.0, "emp": 134, "q": [45704.0, 56594.0, 52093.0, 61629.0], "rev": 216020.0, "qp": [-1879.0, -2445.0, -2144.0, -2509.0], "op": -8977.0, "product": "가스탐사/개발", "grade": "A+"}];
+const SECTOR_ICON = {"철강트레이딩":"🔩","모빌리티":"🚗","에너지":"⚡","자원개발":"⛏️","식량":"🌾","바이오소재":"🧬","그린수소":"💧","CCS사업":"♻️"};
+const REGION_GRAD = {
+  "유럽":"linear-gradient(135deg,#5b6ef5,#a86bf0)",
+  "아시아":"linear-gradient(135deg,#ff6b6b,#ff385c)",
+  "북미":"linear-gradient(135deg,#11998e,#38ef7d)",
+  "중남미":"linear-gradient(135deg,#f7971e,#ffd200)",
+  "중동":"linear-gradient(135deg,#c94b4b,#4b134f)",
+  "대양주":"linear-gradient(135deg,#2193b0,#6dd5ed)",
+  "아프리카":"linear-gradient(135deg,#cb356b,#bd3f32)"
+};
+const SECTOR_ORDER = ["철강트레이딩","모빌리티","에너지","자원개발","식량","바이오소재","그린수소","CCS사업"];
+const REGIONS = [...new Set(DATA.map(d=>d.region))];
+const GRADES = ["A+","A","B+","B","C+","C"];
+
+const state = {sector:"전체", region:"전체", grade:"전체", query:"", sort:"rev", dir:-1, showAll:false};
+const tip = document.getElementById('tip');
+
+/* ---------- formatting ---------- */
+const sum=(a,f)=>a.reduce((s,x)=>s+f(x),0);
+function eok(mil){ // 백만원 -> 억원 (1억 = 100백만)
+  const v=Math.round(mil/100);
+  return v.toLocaleString('ko-KR');
+}
+function jo(mil){ return (mil/1e6).toFixed(2); } // 백만원 -> 조원
+function pct(x){ return (x*100).toFixed(1); }
+function showTip(e,html){ tip.innerHTML=html; tip.style.opacity=1; moveTip(e); }
+function moveTip(e){ const p=12; let x=e.clientX+p,y=e.clientY+p;
+  const w=tip.offsetWidth,h=tip.offsetHeight;
+  if(x+w>innerWidth)x=e.clientX-w-p; if(y+h>innerHeight)y=e.clientY-h-p;
+  tip.style.left=x+'px'; tip.style.top=y+'px'; }
+function hideTip(){ tip.style.opacity=0; }
+
+/* ---------- filtering ---------- */
+function filtered(){
+  return DATA.filter(d=>
+    (state.sector==="전체"||d.sector===state.sector) &&
+    (state.region==="전체"||d.region===state.region) &&
+    (state.grade==="전체"||d.grade===state.grade) &&
+    (!state.query || (d.name+d.country+d.product+d.code).toLowerCase().includes(state.query.toLowerCase()))
+  );
+}
+function agg(arr){
+  const rev=sum(arr,d=>d.rev), op=sum(arr,d=>d.op);
+  return {n:arr.length, rev, op, margin:rev?op/rev:0, emp:sum(arr,d=>d.emp)};
+}
+
+/* ---------- controls ---------- */
+function buildControls(){
+  const fr=document.getElementById('fRegion'), fg=document.getElementById('fGrade');
+  fr.innerHTML='<option>전체</option>'+REGIONS.map(r=>`<option>${r}</option>`).join('');
+  fg.innerHTML='<option>전체</option>'+GRADES.map(g=>`<option>${g}</option>`).join('');
+  fr.onchange=e=>{state.region=e.target.value;render();};
+  fg.onchange=e=>{state.grade=e.target.value;render();};
+  document.getElementById('q').oninput=e=>{state.query=e.target.value;state.showAll=true;render();};
+
+  const strip=document.getElementById('strip');
+  const items=[{k:"전체",ic:"✦"}].concat(SECTOR_ORDER.map(s=>({k:s,ic:SECTOR_ICON[s]})));
+  strip.innerHTML=items.map(it=>{
+    const ct=it.k==="전체"?DATA.length:DATA.filter(d=>d.sector===it.k).length;
+    return `<div class="chip" data-s="${it.k}"><span class="dot">${it.ic}</span>${it.k}<span class="ct">${ct}</span></div>`;
+  }).join('');
+  strip.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{state.sector=c.dataset.s;render();});
+
+  document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.querySelector(t.dataset.tab).scrollIntoView({behavior:'smooth',block:'start'});
+  });
+  document.getElementById('moreBtn').onclick=()=>{state.showAll=!state.showAll;render();};
+}
+
+/* ---------- KPIs ---------- */
+function renderKPI(arr){
+  const a=agg(arr), all=agg(DATA);
+  const profitCos=arr.filter(d=>d.op>0).length, lossCos=arr.filter(d=>d.op<0).length;
+  const scope = state.sector==="전체"&&state.region==="전체"&&state.grade==="전체"&&!state.query;
+  document.getElementById('kpiTitle').textContent= scope?"전사 통합 실적":"선택 범위 실적";
+  document.getElementById('kpiMeta').textContent= `${a.n}개 법인 · 전사 매출의 ${pct(all.rev?a.rev/all.rev:0)}%`;
+  const cards=[
+    {k:"📦 법인 수",v:a.n,u:"개",d:`흑자 <b class="pos">${profitCos}</b> · 적자 <b class="neg">${lossCos}</b>`},
+    {k:"📈 연매출",v: a.rev>=1e6? jo(a.rev):eok(a.rev), u: a.rev>=1e6?"조원":"억원", d:`평균 <b>${eok(a.n?a.rev/a.n:0)}</b>억원 / 법인`},
+    {k:"💰 영업이익",v: eok(a.op), u:"억원", d:`전사 영업이익의 <b>${pct(all.op?a.op/all.op:0)}%</b>`, neg:a.op<0},
+    {k:"🎯 영업이익률",v: pct(a.margin), u:"%", d:`임직원 <b>${a.emp.toLocaleString()}</b>명`, neg:a.margin<0}
+  ];
+  document.getElementById('kpis').innerHTML=cards.map(c=>`
+    <div class="kpi"><div class="k">${c.k}</div>
+    <div class="v ${c.neg?'neg':''}">${c.v}<span class="u">${c.u}</span></div>
+    <div class="d">${c.d}</div></div>`).join('');
+}
+
+/* ---------- quarterly chart ---------- */
+function renderQuarter(arr){
+  const W=620,H=270,padL=52,padR=20,padT=18,padB=34;
+  const qr=[0,1,2,3].map(i=>sum(arr,d=>d.q[i])/100);   // 억
+  const qp=[0,1,2,3].map(i=>sum(arr,d=>d.qp[i])/100);
+  const maxR=Math.max(...qr,1), iw=W-padL-padR, ih=H-padT-padB;
+  const bw=iw/4*0.46;
+  const xC=i=>padL+iw/4*(i+0.5);
+  const yR=v=>padT+ih-(v/maxR)*ih;
+  const maxP=Math.max(...qp.map(Math.abs),1), pZero=padT+ih;
+  // op line uses its own scale mapped into top 70%
+  const yP=v=>padT+ih-((v)/maxP)*(ih*0.82)-(maxP&&Math.min(...qp)<0?ih*0.0:0);
+  const minP=Math.min(...qp,0);
+  const span=maxP-Math.min(minP,0)||1;
+  const yP2=v=>padT+ih-((v-Math.min(minP,0))/span)*ih*0.9;
+  let g='';
+  // gridlines
+  for(let t=0;t<=4;t++){const y=padT+ih-(ih*t/4);const val=maxR*t/4;
+    g+=`<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--hairline-soft)"/>`;
+    g+=`<text x="${padL-8}" y="${y+4}" text-anchor="end" font-size="11" fill="var(--muted-soft)">${Math.round(val).toLocaleString()}</text>`;}
+  // bars
+  qr.forEach((v,i)=>{const x=xC(i)-bw/2,y=yR(v),h=padT+ih-y;
+    g+=`<rect class="bar-seg" x="${x}" y="${y}" width="${bw}" height="${h}" rx="5" fill="var(--ink)"
+        data-tip="<b>Q${i+1}</b> 매출 ${Math.round(v).toLocaleString()}억 · 영업이익 ${Math.round(qp[i]).toLocaleString()}억"></rect>`;});
+  // op line
+  let pts=qp.map((v,i)=>`${xC(i)},${yP2(v)}`).join(' ');
+  g+=`<polyline points="${pts}" fill="none" stroke="var(--primary)" stroke-width="2.5"/>`;
+  qp.forEach((v,i)=>{g+=`<circle class="dot-pt" cx="${xC(i)}" cy="${yP2(v)}" r="5" fill="#fff" stroke="var(--primary)" stroke-width="2.5"
+      data-tip="<b>Q${i+1}</b> 영업이익 ${Math.round(v).toLocaleString()}억"></circle>`;});
+  // x labels
+  ['Q1','Q2','Q3','Q4'].forEach((q,i)=>{g+=`<text x="${xC(i)}" y="${H-12}" text-anchor="middle" font-size="12" font-weight="600" fill="var(--body)">${q}</text>`;});
+  document.getElementById('qChart').innerHTML=`<svg viewBox="0 0 ${W} ${H}" class="chart">${g}</svg>`;
+  bindTips('#qChart');
+}
+
+/* ---------- donut: sector revenue share (global) ---------- */
+function renderDonut(){
+  const W=300,H=270,cx=150,cy=120,r=92,ir=58;
+  const byS=SECTOR_ORDER.map(s=>({s,rev:sum(DATA.filter(d=>d.sector===s),d=>d.rev)}));
+  const tot=sum(byS,x=>x.rev);
+  const cols=["#222222","#ff385c","#5b6ef5","#11998e","#f7971e","#a86bf0","#2193b0","#cb356b"];
+  let ang=-Math.PI/2,g='';
+  byS.forEach((d,i)=>{
+    const frac=d.rev/tot, a2=ang+frac*Math.PI*2;
+    const x1=cx+r*Math.cos(ang),y1=cy+r*Math.sin(ang),x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);
+    const xi1=cx+ir*Math.cos(a2),yi1=cy+ir*Math.sin(a2),xi2=cx+ir*Math.cos(ang),yi2=cy+ir*Math.sin(ang);
+    const large=frac>0.5?1:0;
+    const active=state.sector==="전체"||state.sector===d.s;
+    g+=`<path class="dn-seg ${active?'':'fade'}" data-s="${d.s}" d="M${x1} ${y1} A${r} ${r} 0 ${large} 1 ${x2} ${y2} L${xi1} ${yi1} A${ir} ${ir} 0 ${large} 0 ${xi2} ${yi2} Z" fill="${cols[i]}"
+        data-tip="${SECTOR_ICON[d.s]} <b>${d.s}</b> ${eok(d.rev)}억 (${pct(frac)}%)"></path>`;
+    ang=a2;
+  });
+  g+=`<text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="22" font-weight="700" fill="var(--ink)">${jo(tot)}</text>`;
+  g+=`<text x="${cx}" y="${cy+14}" text-anchor="middle" font-size="11" fill="var(--muted)">조원 매출</text>`;
+  // legend
+  let leg='<div class="lg-row" style="margin-top:6px">';
+  byS.forEach((d,i)=>{leg+=`<span class="lg"><span class="sw" style="background:${cols[i]}"></span>${d.s} ${pct(d.rev/tot)}%</span>`;});
+  leg+='</div>';
+  document.getElementById('donut').innerHTML=`<svg viewBox="0 0 ${W} ${H}" class="chart" style="max-height:220px">${g}</svg>`+leg;
+  bindTips('#donut');
+  document.querySelectorAll('#donut .dn-seg').forEach(s=>s.onclick=()=>{state.sector=(state.sector===s.dataset.s?"전체":s.dataset.s);render();});
+}
+
+/* ---------- region horizontal bar ---------- */
+function renderRegionBar(arr){
+  const rows=REGIONS.map(rg=>({rg,rev:sum(arr.filter(d=>d.region===rg),d=>d.rev)}))
+    .filter(x=>x.rev>0).sort((a,b)=>b.rev-a.rev);
+  const W=560,rowH=34,padL=66,padR=70,padT=6,H=padT+rows.length*rowH+6;
+  const max=Math.max(...rows.map(r=>r.rev),1),iw=W-padL-padR;
+  let g='';
+  rows.forEach((r,i)=>{const y=padT+i*rowH,bw=(r.rev/max)*iw;
+    const active=state.region==="전체"||state.region===r.rg;
+    g+=`<text x="${padL-10}" y="${y+rowH/2+4}" text-anchor="end" font-size="13" font-weight="600" fill="var(--ink)">${r.rg}</text>`;
+    g+=`<rect class="bar-seg ${active?'':'fade'}" data-rg="${r.rg}" x="${padL}" y="${y+6}" width="${Math.max(bw,2)}" height="${rowH-14}" rx="5" fill="var(--primary)"
+        data-tip="🌍 <b>${r.rg}</b> 매출 ${eok(r.rev)}억"></rect>`;
+    g+=`<text x="${padL+Math.max(bw,2)+8}" y="${y+rowH/2+4}" font-size="12" font-weight="600" fill="var(--body)">${eok(r.rev)}억</text>`;});
+  document.getElementById('regionBar').innerHTML=`<svg viewBox="0 0 ${W} ${H}" class="chart">${g}</svg>`;
+  bindTips('#regionBar');
+  document.querySelectorAll('#regionBar .bar-seg').forEach(b=>b.onclick=()=>{
+    state.region=(state.region===b.dataset.rg?"전체":b.dataset.rg);
+    document.getElementById('fRegion').value=state.region; render();});
+}
+
+/* ---------- sector diverging bar (op) ---------- */
+function renderSectorBar(arr){
+  const rows=SECTOR_ORDER.map(s=>({s,op:sum(arr.filter(d=>d.sector===s),d=>d.op)})).filter(x=>x.op!==0);
+  const W=560,rowH=30,padT=6,H=padT+rows.length*rowH+6,padL=92,padR=60;
+  const maxAbs=Math.max(...rows.map(r=>Math.abs(r.op)),1),iw=W-padL-padR;
+  const zero=padL+iw*0.42, posW=W-padR-zero, negW=zero-padL;
+  let g=`<line x1="${zero}" y1="${padT}" x2="${zero}" y2="${H-6}" stroke="var(--hairline)"/>`;
+  rows.forEach((r,i)=>{const y=padT+i*rowH; const active=state.sector==="전체"||state.sector===r.s;
+    g+=`<text x="${padL-8}" y="${y+rowH/2+4}" text-anchor="end" font-size="12" font-weight="600" fill="var(--ink)">${SECTOR_ICON[r.s]} ${r.s}</text>`;
+    if(r.op>=0){const w=(r.op/maxAbs)*posW;
+      g+=`<rect class="bar-seg ${active?'':'fade'}" data-s="${r.s}" x="${zero}" y="${y+5}" width="${Math.max(w,2)}" height="${rowH-12}" rx="4" fill="var(--ink)" data-tip="${r.s} 영업이익 <b>+${eok(r.op)}억</b>"></rect>
+        <text x="${zero+Math.max(w,2)+6}" y="${y+rowH/2+4}" font-size="11" font-weight="600" fill="var(--ink)">+${eok(r.op)}</text>`;
+    }else{const w=(Math.abs(r.op)/maxAbs)*negW;
+      g+=`<rect class="bar-seg ${active?'':'fade'}" data-s="${r.s}" x="${zero-Math.max(w,2)}" y="${y+5}" width="${Math.max(w,2)}" height="${rowH-12}" rx="4" fill="var(--error)" data-tip="${r.s} 영업이익 <b>${eok(r.op)}억</b>"></rect>
+        <text x="${zero-Math.max(w,2)-6}" y="${y+rowH/2+4}" text-anchor="end" font-size="11" font-weight="600" fill="var(--error)">${eok(r.op)}</text>`;}
+  });
+  document.getElementById('sectorBar').innerHTML=`<svg viewBox="0 0 ${W} ${H}" class="chart">${g}</svg>`;
+  bindTips('#sectorBar');
+  document.querySelectorAll('#sectorBar .bar-seg').forEach(b=>b.onclick=()=>{state.sector=(state.sector===b.dataset.s?"전체":b.dataset.s);render();});
+}
+
+/* ---------- region cards ---------- */
+function renderRegionCards(arr){
+  const rows=REGIONS.map(rg=>{const a=agg(arr.filter(d=>d.region===rg));return {rg,...a};})
+    .filter(x=>x.n>0).sort((a,b)=>b.rev-a.rev);
+  document.getElementById('regionCards').innerHTML=rows.map(r=>`
+    <div class="pcard" data-rg="${r.rg}">
+      <div class="photo" style="background:${REGION_GRAD[r.rg]}">
+        <span class="badge">${r.n}개 법인</span>
+        <span class="pc-name">${r.rg}</span>
+      </div>
+      <div class="meta">
+        <div class="mrow"><span class="t">연매출</span><span class="rating">${r.rev>=1e6?jo(r.rev)+'조':eok(r.rev)+'억'}</span></div>
+        <div class="sub">영업이익 <span class="${r.op<0?'neg':'pos'}" style="font-weight:600">${eok(r.op)}억</span></div>
+        <div class="price"><b class="${r.margin<0?'neg':''}">${pct(r.margin)}%</b> 영업이익률 · 임직원 ${r.emp.toLocaleString()}명</div>
+      </div>
+    </div>`).join('');
+  document.querySelectorAll('#regionCards .pcard').forEach(c=>c.onclick=()=>{
+    state.region=(state.region===c.dataset.rg?"전체":c.dataset.rg);
+    document.getElementById('fRegion').value=state.region; render();
+    document.getElementById('regions').scrollIntoView({behavior:'smooth'});});
+}
+
+/* ---------- top performer cards ---------- */
+function renderTop(arr){
+  const top=[...arr].sort((a,b)=>b.rev-a.rev).slice(0,8);
+  document.getElementById('tpTitle').textContent= state.sector==="전체"?"매출 상위 법인":`${state.sector} · 매출 상위 법인`;
+  document.getElementById('topCards').innerHTML=top.map(d=>{
+    const m=d.op/d.rev;
+    return `<div class="pcard tp">
+      <div class="photo" style="background:${REGION_GRAD[d.region]}">
+        <span class="badge">${SECTOR_ICON[d.sector]} ${d.sector}</span>
+        <div class="corner">${d.country} · ${d.region}</div>
+        <div class="big"><div class="num" style="${m<0?'color:#ffd1da':''}">${pct(m)}%</div><div class="lab">영업이익률</div></div>
+      </div>
+      <div class="meta">
+        <div class="mrow"><span class="t" style="max-width:165px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${d.name}</span><span class="rating">${gradeDot(d.grade)}</span></div>
+        <div class="sub">${d.product}</div>
+        <div class="price"><b>${eok(d.rev)}억</b> 매출 · 영업이익 <span class="${d.op<0?'neg':''}">${eok(d.op)}억</span></div>
+      </div>
+    </div>`;}).join('');
+}
+function gradeDot(g){const c=g[0]==='A'?'a':g[0]==='B'?'b':'c';return `<span class="gr ${c}">${g}</span>`;}
+
+/* ---------- table ---------- */
+const COLS=[
+  {k:"name",l:"법인명",align:"l"},{k:"region",l:"지역",align:"l"},{k:"sector",l:"사업부문",align:"l"},
+  {k:"emp",l:"임직원",fmt:v=>v.toLocaleString()},
+  {k:"rev",l:"연매출(억)",fmt:v=>eok(v)},
+  {k:"op",l:"영업이익(억)",fmt:v=>eok(v),neg:true},
+  {k:"margin",l:"이익률",fmt:v=>pct(v)+'%',neg:true},
+  {k:"grade",l:"투자등급",align:"l"}
+];
+function renderTable(arr){
+  const rows=[...arr].map(d=>({...d,margin:d.op/d.rev}));
+  rows.sort((a,b)=>{const x=a[state.sort],y=b[state.sort];
+    if(typeof x==='string')return state.dir*x.localeCompare(y,'ko');
+    return state.dir*(x-y);});
+  document.getElementById('thead').innerHTML=COLS.map(c=>{
+    const sorted=state.sort===c.k;
+    return `<th class="${c.align==='l'?'l':''} ${sorted?'sorted':''}" data-k="${c.k}">${c.l}
+      <span class="ar">${sorted?(state.dir<0?'▼':'▲'):'↕'}</span></th>`;}).join('');
+  const lim=state.showAll?rows.length:12;
+  document.getElementById('tbody').innerHTML=rows.slice(0,lim).map(d=>`<tr>${
+    COLS.map(c=>{
+      let v=d[c.k];
+      if(c.k==="name")return `<td class="l"><div class="corp">${v}</div><span class="code">${d.code} · ${d.country}</span></td>`;
+      if(c.k==="sector")return `<td class="l"><span class="tag">${SECTOR_ICON[v]} ${v}</span></td>`;
+      if(c.k==="grade")return `<td class="l">${gradeDot(v)}</td>`;
+      if(c.k==="region")return `<td class="l">${v}</td>`;
+      const txt=c.fmt?c.fmt(v):v;
+      const cls=c.neg&&v<0?'neg':'';
+      return `<td class="${cls}">${txt}</td>`;
+    }).join('')}</tr>`).join('');
+  document.querySelectorAll('#thead th').forEach(th=>th.onclick=()=>{
+    const k=th.dataset.k;
+    if(state.sort===k)state.dir*=-1; else {state.sort=k;state.dir=(k==='name'||k==='region'||k==='sector'||k==='grade')?1:-1;}
+    render();});
+  document.getElementById('tblFoot').textContent=`${rows.length}개 중 ${Math.min(lim,rows.length)}개 표시`;
+  document.getElementById('moreBtn').textContent=state.showAll?'접기':'전체 보기';
+  document.getElementById('tblMeta').textContent=`${rows.length}개 법인 · 정렬: ${COLS.find(c=>c.k===state.sort).l}`;
+}
+
+/* ---------- tooltips binding ---------- */
+function bindTips(sel){
+  document.querySelectorAll(sel+' [data-tip]').forEach(el=>{
+    el.addEventListener('mousemove',e=>showTip(e,el.dataset.tip));
+    el.addEventListener('mouseleave',hideTip);
+  });
+}
+
+/* ---------- master render ---------- */
+function render(){
+  const arr=filtered();
+  renderKPI(arr);
+  renderQuarter(arr);
+  renderDonut();
+  renderRegionBar(arr);
+  renderSectorBar(arr);
+
+  renderTop(arr);
+  renderTable(arr);
+  document.querySelectorAll('#strip .chip').forEach(c=>c.classList.toggle('active',c.dataset.s===state.sector));
+}
+buildControls();
+render();
+</script>
+</body>
+</html>

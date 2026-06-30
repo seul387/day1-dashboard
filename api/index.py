@@ -119,6 +119,14 @@ COMMON_CSS = """
                    font-weight:600;border-bottom:3px solid transparent;transition:all .2s}
     nav.page-nav a:hover{color:white}
     nav.page-nav a.active{color:white;border-bottom-color:#4ade80}
+    .share-btn{margin-left:auto;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+               color:white;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:.82rem;
+               font-weight:600;transition:all .2s;white-space:nowrap}
+    .share-btn:hover{background:rgba(255,255,255,.22)}
+    .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);
+           background:#1e3a5f;color:white;padding:10px 22px;border-radius:8px;font-size:.88rem;
+           opacity:0;transition:all .3s;z-index:999;pointer-events:none}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
     .toolbar{background:white;border-bottom:1px solid #e2e8f0;padding:12px 40px;display:flex;
              gap:12px;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06)}
     .btn{padding:8px 18px;border-radius:6px;border:none;cursor:pointer;font-size:.9rem;font-weight:600;transition:all .2s}
@@ -163,7 +171,26 @@ def nav_html(active):
         f'<a href="{href}" class="{"active" if href == active else ""}">{label}</a>'
         for href, label in links
     )
-    return f'<nav class="page-nav">{items}</nav>'
+    return f'''<nav class="page-nav">
+  {items}
+  <button class="share-btn" onclick="sharePage()">🔗 공유</button>
+</nav>
+<div class="toast" id="toast">링크가 복사되었습니다!</div>
+<script>
+function sharePage() {{
+  const url = window.location.href;
+  if (navigator.share) {{
+    navigator.share({{ title: document.title, url }});
+  }} else {{
+    navigator.clipboard.writeText(url).then(() => showToast());
+  }}
+}}
+function showToast() {{
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}}
+</script>'''
 
 # -------------------------------------------------------
 # 라우트 - 메인 (오늘 브리핑)

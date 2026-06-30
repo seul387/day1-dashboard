@@ -91,6 +91,8 @@ def collect_news():
     for topic, cfg in TOPICS.items():
         seen, articles = set(), []
         for a in rss_cache:
+            if "(인사)" in a.get("title", ""):
+                continue
             text = (a["title"] + " " + a["description"]).lower()
             if any(k.lower() in text for k in cfg["rss_keywords"]) and a["url"] not in seen:
                 if not any(e.lower() in text for e in cfg["exclude"]):

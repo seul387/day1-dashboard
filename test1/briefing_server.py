@@ -139,6 +139,8 @@ def collect_all(from_date=None, to_date=None):
         seen, articles = set(), []
         # RSS: 날짜 필터 적용 (to_date 기준)
         for a in _rss_cache:
+            if "(인사)" in a.get("title", ""):
+                continue
             if to_date:
                 pub = (a.get("publishedAt") or "")[:10]
                 if pub and pub > to_date:

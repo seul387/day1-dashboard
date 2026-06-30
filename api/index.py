@@ -22,8 +22,8 @@ KO_RSS_FEEDS = [
 
 TOPICS = {
     "재생에너지": {"icon": "☀️", "color": "#f59e0b",
-                  "rss_keywords": ["재생에너지","태양광","풍력","신재생"],
-                  "newsapi_queries": ['"renewable energy" policy OR market OR investment'],
+                  "rss_keywords": ["재생에너지","태양광","풍력","육상풍력","신재생","전기본","RE100","풍력발전","태양광발전"],
+                  "newsapi_queries": ['"renewable energy" policy OR market OR investment OR "RE100" OR "solar" OR "onshore wind"'],
                   "exclude": []},
     "수소혼소":   {"icon": "🔥", "color": "#3b82f6",
                   "rss_keywords": ["수소혼소","암모니아혼소","혼소발전"],
